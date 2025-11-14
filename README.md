@@ -227,7 +227,7 @@ Educational Project - 2025
 
 ---
 
-## 🎓 For Students & Presenters
+## 🎓  Presenters
 
 **Pre-Presentation Checklist:**
 - [ ] Choose deployment method (Docker/Render/Local)
