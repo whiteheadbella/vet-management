@@ -121,11 +121,6 @@
                                 <h4 class="section-title">
                                     <i class="bi bi-heart-pulse"></i> Medical Information
                                 </h4>
-                                <div class="mb-3">
-                                    <label for="medical_info" class="form-label">Medical Information</label>
-                                    <textarea class="form-control" id="medical_info" name="medical_info" rows="3" placeholder="Vaccination status, medical history, current medications, known health issues"></textarea>
-                                    <small class="form-text text-muted">Include vaccination status, spay/neuter status, any known health conditions, current medications</small>
-                                </div>
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
                                         <div class="form-check">
@@ -152,6 +147,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="special_needs" class="form-label">Special Needs / Medical Notes</label>
+                                    <textarea class="form-control" id="special_needs" name="special_needs" rows="3" placeholder="Any special medical needs, allergies, medications, or health conditions"></textarea>
+                                </div>
                             </div>
 
                             <!-- Behavioral Traits -->
@@ -159,15 +158,10 @@
                                 <h4 class="section-title">
                                     <i class="bi bi-emoji-smile"></i> Behavioral Traits
                                 </h4>
-                                <div class="mb-3">
-                                    <label for="behavioral_traits" class="form-label">Behavioral Traits</label>
-                                    <textarea class="form-control" id="behavioral_traits" name="behavioral_traits" rows="3" placeholder="Personality traits, temperament, behavior with people and other animals"></textarea>
-                                    <small class="form-text text-muted">e.g., Friendly, energetic, calm, playful, shy, protective</small>
-                                </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="good_with_kids" name="good_with_kids">
+                                            <input class="form-check-input" type="checkbox" id="good_with_kids" name="good_with_kids" checked>
                                             <label class="form-check-label" for="good_with_kids">
                                                 Good with Kids
                                             </label>
@@ -175,9 +169,25 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="good_with_pets" name="good_with_pets">
+                                            <input class="form-check-input" type="checkbox" id="good_with_pets" name="good_with_pets" checked>
                                             <label class="form-check-label" for="good_with_pets">
                                                 Good with Other Pets
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="good_with_dogs" name="good_with_dogs" checked>
+                                            <label class="form-check-label" for="good_with_dogs">
+                                                Good with Dogs
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="good_with_cats" name="good_with_cats" checked>
+                                            <label class="form-check-label" for="good_with_cats">
+                                                Good with Cats
                                             </label>
                                         </div>
                                     </div>
@@ -185,6 +195,7 @@
                                 <div class="mb-3">
                                     <label for="energy_level" class="form-label">Energy Level</label>
                                     <select class="form-select" id="energy_level" name="energy_level">
+                                        <option value="">Select Energy Level</option>
                                         <option value="low">Low</option>
                                         <option value="medium" selected>Medium</option>
                                         <option value="high">High</option>

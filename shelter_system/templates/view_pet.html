@@ -93,15 +93,54 @@
                         <p class="text-muted">{{ pet.description or 'No description available.' }}</p>
 
                         <!-- Medical Information -->
-                        {% if pet.medical_info %}
                         <h5 class="border-bottom pb-2 mt-4"><i class="bi bi-heart-pulse"></i> Medical Information</h5>
-                        <p>{{ pet.medical_info }}</p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="badge bg-{{ 'success' if pet.vaccinated else 'secondary' }}">
+                                    <i class="bi bi-{{ 'check-circle' if pet.vaccinated else 'x-circle' }}"></i> Vaccinated
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="badge bg-{{ 'success' if pet.spayed_neutered else 'secondary' }}">
+                                    <i class="bi bi-{{ 'check-circle' if pet.spayed_neutered else 'x-circle' }}"></i> Spayed/Neutered
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="badge bg-{{ 'success' if pet.microchipped else 'secondary' }}">
+                                    <i class="bi bi-{{ 'check-circle' if pet.microchipped else 'x-circle' }}"></i> Microchipped
+                                </span>
+                            </div>
+                        </div>
+                        {% if pet.special_needs %}
+                        <p class="mt-3"><strong>Special Needs:</strong> {{ pet.special_needs }}</p>
                         {% endif %}
 
                         <!-- Behavioral Traits -->
-                        {% if pet.behavioral_traits %}
                         <h5 class="border-bottom pb-2 mt-4"><i class="bi bi-emoji-smile"></i> Behavioral Traits</h5>
-                        <p>{{ pet.behavioral_traits }}</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="badge bg-{{ 'success' if pet.good_with_kids else 'secondary' }}">
+                                    <i class="bi bi-{{ 'check-circle' if pet.good_with_kids else 'x-circle' }}"></i> Good with Kids
+                                </span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="badge bg-{{ 'success' if pet.good_with_pets else 'secondary' }}">
+                                    <i class="bi bi-{{ 'check-circle' if pet.good_with_pets else 'x-circle' }}"></i> Good with Pets
+                                </span>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <span class="badge bg-{{ 'success' if pet.good_with_dogs else 'secondary' }}">
+                                    <i class="bi bi-{{ 'check-circle' if pet.good_with_dogs else 'x-circle' }}"></i> Good with Dogs
+                                </span>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <span class="badge bg-{{ 'success' if pet.good_with_cats else 'secondary' }}">
+                                    <i class="bi bi-{{ 'check-circle' if pet.good_with_cats else 'x-circle' }}"></i> Good with Cats
+                                </span>
+                            </div>
+                        </div>
+                        {% if pet.energy_level %}
+                        <p class="mt-3"><strong>Energy Level:</strong> <span class="badge bg-info">{{ pet.energy_level|capitalize }}</span></p>
                         {% endif %}
 
                         <!-- Action Buttons -->
@@ -152,9 +191,11 @@
                     <div class="card-body">
                         <p><strong>Total Images:</strong> {{ pet.images|length }}</p>
                         <p><strong>Activity Logs:</strong> {{ logs|length }}</p>
-                        <p><strong>Days in Shelter:</strong> 
-                            {% if pet.created_at %}
-                            {{ (now() - pet.created_at).days }}
+                        <p><strong>Intake Date:</strong> 
+                            {% if pet.intake_date %}
+                            {{ pet.intake_date.strftime('%Y-%m-%d') }}
+                            {% elif pet.created_at %}
+                            {{ pet.created_at.strftime('%Y-%m-%d') }}
                             {% else %}
                             N/A
                             {% endif %}

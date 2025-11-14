@@ -25,13 +25,14 @@ cors.init_app(app)
 from veterinary_system.models import Vet, VetRecord, Appointment
 
 # Import routes (use absolute imports)
-from veterinary_system.routes import health_api, appointments, vets, health_records
+from veterinary_system.routes import health_api, appointments, vets, health_records, chatbot
 
 # Register blueprints
 app.register_blueprint(health_api.bp)
 app.register_blueprint(appointments.bp)
 app.register_blueprint(vets.bp)
 app.register_blueprint(health_records.bp)
+app.register_blueprint(chatbot.bp)
 
 @app.route('/')
 def index():

@@ -33,18 +33,21 @@ This project consists of three integrated systems:
 - Email notifications
 - View pet health records
 - Schedule vet appointments
+- **🤖 AI Chatbot Assistant** - Intelligent assistant that integrates data from both Shelter and Veterinary systems
 
 ### Shelter Inventory System
 - Add/update pets
 - Manage pet status (Available/Adopted)
 - Upload pet images
 - Expose REST API for pet data
+- **🤖 Shelter Chatbot** - Query pet inventory, statistics, and availability using natural language
 
 ### Veterinary Management System
 - Track pet health records
 - Manage vaccinations
 - Schedule appointments (Google Calendar integration)
 - Update medical information
+- **🤖 Veterinary Chatbot** - Check health records, appointments, and vet information through conversational interface
 
 ## 🛠️ Technology Stack
 
@@ -122,8 +125,11 @@ python veterinary_system/app.py
 ## 🌐 System URLs
 
 - **Adoption System**: http://localhost:5000
+  - 🤖 **Chatbot**: http://localhost:5000/chatbot
 - **Shelter System**: http://localhost:5001
+  - 🤖 **Chatbot**: http://localhost:5001/chatbot
 - **Veterinary System**: http://localhost:5002
+  - 🤖 **Chatbot**: http://localhost:5002/chatbot
 
 ## 📊 Database Schema
 
@@ -206,6 +212,86 @@ python veterinary_system/app.py
 - ✅ 3 veterinarians with profiles
 - ✅ 5 scheduled appointments
 - ✅ Full cross-system integration
+- ✅ **3 AI Chatbot Assistants** with natural language processing
+
+---
+
+## 🤖 Chatbot Integration
+
+Each system includes an intelligent chatbot assistant accessible from the footer or navigation bar.
+
+### Chatbot Features
+
+**🏠 Shelter Chatbot** (Purple theme)
+- Query pet statistics and inventory
+- Search pets by name, breed, or characteristics
+- Check medical information (vaccinations, spay/neuter status)
+- Find family-friendly pets
+- View recent activity logs
+
+**Sample Queries:**
+```
+"How many pets do we have?"
+"Show me available dogs"
+"Find Max"
+"Pets good with kids"
+"Vaccinated pets"
+```
+
+**🏥 Veterinary Chatbot** (Green theme)
+- View health record statistics
+- Check appointment schedules
+- Search health records by pet ID
+- List veterinarians and specializations
+- Identify pets requiring medical attention
+
+**Sample Queries:**
+```
+"How many health records?"
+"Show upcoming appointments"
+"Show available vets"
+"Find record for pet 1"
+"Today's appointments"
+```
+
+**❤️ Adoption Chatbot** (Pink theme) - **Integration Demo**
+- Browse available pets from Shelter System API
+- Check pet health status from Veterinary System API
+- **Combines data from both systems in real-time**
+- Explain adoption process and requirements
+- Filter pets by characteristics
+
+**Sample Queries:**
+```
+"Show me available pets"
+"Check health status for pet 1"  ← Cross-system integration!
+"Dogs for adoption"
+"How to adopt?"
+"Pets good with kids"
+```
+
+### Integration Architecture
+
+The Adoption chatbot demonstrates **true microservices integration**:
+
+```python
+# Fetches pet info from Shelter System
+GET http://localhost:5001/api/pets/1
+
+# Fetches health info from Veterinary System  
+GET http://localhost:5002/api/health/1
+
+# Combines responses into unified answer
+```
+
+**Access Chatbots:**
+- Click the footer button on any system homepage
+- Or navigate directly to `/chatbot` on each system
+- Or use quick action buttons for common queries
+
+**Documentation:**
+- 📖 [Chatbot Quick Start](CHATBOT_QUICKSTART.md)
+- 📖 [Complete Chatbot Guide](CHATBOT_GUIDE.md)
 
 ---
 
@@ -238,9 +324,16 @@ Educational Project - 2025
 - [ ] Prepare backup deployment
 - [ ] Test on multiple devices
 
-**Demo Flow (5 minutes):**
+**Demo Flow (7 minutes):**
 1. Browse pets with filters → Show integration
 2. View health records → Show vaccination tracking
 3. Schedule appointment → Show cross-system communication
-4. View veterinarian profiles → Show complete system
-5. Test APIs in Postman → Show technical architecture
+4. **🤖 Chatbot Integration Demo** → Ask "Check health status for pet 1" in Adoption chatbot
+5. View veterinarian profiles → Show complete system
+6. Test APIs in Postman → Show technical architecture
+
+**Chatbot Demo (Recommended):**
+1. Open Adoption chatbot: http://localhost:5000/chatbot
+2. Query: "Show me available pets" (calls Shelter API)
+3. Query: "Check health status for pet 1" (calls BOTH Shelter + Vet APIs)
+4. Explain: Real-time microservices integration via REST APIs

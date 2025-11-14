@@ -356,11 +356,13 @@ def populate_pets():
                 breed=dog_data['breed'],
                 age=dog_data['age'],
                 gender=dog_data['gender'],
+                color=dog_data.get('color', 'Mixed'),
                 size=dog_data['size'],
                 description=dog_data['description'],
                 status='available',
                 vaccinated=True,
                 spayed_neutered=True,
+                microchipped=True,
                 adoption_fee=200.0,
                 activity_level=dog_data['activity_level'],
                 barking_level=dog_data.get('barking_level', 'Medium'),
@@ -368,9 +370,11 @@ def populate_pets():
                 coat_type=dog_data['coat_type'],
                 shedding=dog_data['shedding'],
                 trainability=dog_data['trainability'],
+                energy_level=dog_data['activity_level'].lower() if dog_data['activity_level'] != 'Very High' else 'high',
                 good_with_kids=True,
                 good_with_dogs=True,
-                good_with_cats=True
+                good_with_cats=True,
+                good_with_pets=True
             )
             db.session.add(pet)
             db.session.flush()  # Get the pet ID
@@ -398,19 +402,23 @@ def populate_pets():
                 breed=cat_data['breed'],
                 age=cat_data['age'],
                 gender=cat_data['gender'],
+                color=cat_data.get('color', 'Mixed'),
                 size=cat_data['size'],
                 description=cat_data['description'],
                 status='available',
                 vaccinated=True,
                 spayed_neutered=True,
+                microchipped=True,
                 adoption_fee=150.0,
                 activity_level=cat_data['activity_level'],
                 characteristics=cat_data['characteristics'],
                 coat_type=cat_data['coat_type'],
                 shedding=cat_data['shedding'],
+                energy_level=cat_data['activity_level'].lower(),
                 good_with_kids=True,
                 good_with_dogs=True,
-                good_with_cats=True
+                good_with_cats=True,
+                good_with_pets=True
             )
             db.session.add(pet)
             db.session.flush()

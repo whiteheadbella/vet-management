@@ -42,6 +42,11 @@
                         <a class="nav-link" href="/pets/add">Add Pet</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/chatbot">
+                            <i class="bi bi-robot"></i> Chatbot
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/api/pets/">API Docs</a>
                     </li>
                 </ul>
@@ -107,50 +112,7 @@
             </div>
         </div>
 
-        <!-- Main Features -->
-        <h2 class="mt-5 mb-4"><i class="bi bi-list-check"></i> What This System Does</h2>
-        <div class="row">
-            <div class="col-md-3 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-plus-circle feature-icon text-success"></i>
-                        <h5 class="card-title mt-3">Add Pets</h5>
-                        <p class="card-text">Staff enters new pets into database with complete information</p>
-                        <a href="/pets/add" class="btn btn-success">Add New Pet</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-arrow-repeat feature-icon text-warning"></i>
-                        <h5 class="card-title mt-3">Update Pet Status</h5>
-                        <p class="card-text">Mark pet as "Available" / "Adopted" / "Pending"</p>
-                        <a href="/pets" class="btn btn-warning">Manage Status</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-cloud-arrow-up feature-icon text-info"></i>
-                        <h5 class="card-title mt-3">Upload Pet Images</h5>
-                        <p class="card-text">Store pet photos with captions and manage gallery</p>
-                        <a href="/pets" class="btn btn-info text-white">Upload Images</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-diagram-3 feature-icon"></i>
-                        <h5 class="card-title mt-3">Sync With Adoption</h5>
-                        <p class="card-text">Provides API for pet list and pet status updates</p>
-                        <a href="/api/pets/" class="btn btn-primary">View API</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
         <!-- Recent Activity -->
         <div class="row mt-5">
@@ -213,13 +175,18 @@
     <!-- Footer -->
     <footer class="mt-auto py-4 bg-light">
         <div class="container text-center">
-            <p class="text-muted mb-0">
+            <p class="text-muted mb-2">
                 <i class="bi bi-server"></i> Shelter Management System - Port 5001
             </p>
             <small class="text-muted">
                 Providing data to Adoption System (Port 5000) | 
                 Integrated with Veterinary System (Port 5002)
             </small>
+            <div class="mt-3">
+                <a href="/chatbot" class="btn btn-primary btn-sm">
+                    <i class="bi bi-robot"></i> Ask Shelter Assistant
+                </a>
+            </div>
         </div>
     </footer>
 

@@ -91,6 +91,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('chatbot.chatbot_page') }}">
+                            <i class="bi bi-robot"></i> Chatbot
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('about') }}">About</a>
                     </li>
                     <li class="nav-item">
@@ -152,6 +157,11 @@
     <footer class="mt-5">
         <div class="container text-center">
             <p class="mb-0">&copy; 2025 Pet Adoption System. Connecting hearts with paws.</p>
+            <div class="mt-3 mb-2">
+                <a href="{{ url_for('chatbot.chatbot_page') }}" class="btn btn-light btn-sm">
+                    <i class="bi bi-robot"></i> Ask Adoption Assistant
+                </a>
+            </div>
             <p class="small mt-2">
                 <a href="{{ url_for('about') }}" class="text-white-50 text-decoration-none">About</a> |
                 <a href="{{ url_for('contact') }}" class="text-white-50 text-decoration-none">Contact</a> |

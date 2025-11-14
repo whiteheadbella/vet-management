@@ -29,13 +29,14 @@ login_manager.login_message = 'Please log in to access this page.'
 
 # Import models and routes
 from adoption_system.models import User, AdoptionApplication, AdoptedPet, Notification
-from adoption_system.routes import auth, adoption, pets, profile
+from adoption_system.routes import auth, adoption, pets, profile, chatbot
 
 # Register blueprints
 app.register_blueprint(auth.bp)
 app.register_blueprint(adoption.bp)
 app.register_blueprint(pets.bp)
 app.register_blueprint(profile.bp)
+app.register_blueprint(chatbot.bp)
 
 # User loader for Flask-Login
 @login_manager.user_loader

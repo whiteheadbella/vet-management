@@ -173,20 +173,23 @@
                         <p class="card-text text-muted small">
                             {{ pet.description[:100] }}{{ '...' if pet.description and pet.description|length > 100 else '' }}
                         </p>
-                        {% if pet.medical_info %}
                         <p class="card-text">
-                            <span class="badge bg-info text-white">
-                                <i class="bi bi-heart-pulse"></i> Medical Info Available
+                            {% if pet.vaccinated %}
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle"></i> Vaccinated
                             </span>
-                        </p>
-                        {% endif %}
-                        {% if pet.behavioral_traits %}
-                        <p class="card-text">
-                            <span class="badge bg-warning">
-                                <i class="bi bi-emoji-smile"></i> Behavioral Info Available
+                            {% endif %}
+                            {% if pet.spayed_neutered %}
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle"></i> Fixed
                             </span>
+                            {% endif %}
+                            {% if pet.good_with_kids %}
+                            <span class="badge bg-info">
+                                <i class="bi bi-people"></i> Good w/ Kids
+                            </span>
+                            {% endif %}
                         </p>
-                        {% endif %}
                     </div>
                     <div class="card-footer bg-white">
                         <div class="d-grid gap-2">

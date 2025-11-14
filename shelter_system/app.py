@@ -29,11 +29,12 @@ cors.init_app(app)
 from shelter_system.models import Pet, PetImage, ShelterLog
 
 # Import routes (use absolute imports)
-from shelter_system.routes import pets_api, pets_management
+from shelter_system.routes import pets_api, pets_management, chatbot
 
 # Register blueprints
 app.register_blueprint(pets_api.bp)
 app.register_blueprint(pets_management.bp)
+app.register_blueprint(chatbot.bp)
 
 @app.route('/')
 def index():
@@ -67,8 +68,17 @@ def add_pet():
             gender=request.form.get('gender'),
             description=request.form.get('description', ''),
             status=request.form.get('status', 'available'),
-            medical_info=request.form.get('medical_info', ''),
-            behavioral_traits=request.form.get('behavioral_traits', '')
+            # Medical checkboxes
+            vaccinated=request.form.get('vaccinated') == 'on',
+            spayed_neutered=request.form.get('spayed_neutered') == 'on',
+            microchipped=request.form.get('microchipped') == 'on',
+            special_needs=request.form.get('special_needs', ''),
+            # Behavioral traits
+            good_with_kids=request.form.get('good_with_kids') == 'on',
+            good_with_pets=request.form.get('good_with_pets') == 'on',
+            good_with_dogs=request.form.get('good_with_dogs') == 'on',
+            good_with_cats=request.form.get('good_with_cats') == 'on',
+            energy_level=request.form.get('energy_level', '')
         )
         
         db.session.add(pet)
@@ -121,8 +131,17 @@ def edit_pet(pet_id):
         pet.gender = request.form.get('gender', pet.gender)
         pet.description = request.form.get('description', pet.description)
         pet.status = request.form.get('status', pet.status)
-        pet.medical_info = request.form.get('medical_info', pet.medical_info)
-        pet.behavioral_traits = request.form.get('behavioral_traits', pet.behavioral_traits)
+        # Medical checkboxes
+        pet.vaccinated = request.form.get('vaccinated') == 'on'
+        pet.spayed_neutered = request.form.get('spayed_neutered') == 'on'
+        pet.microchipped = request.form.get('microchipped') == 'on'
+        pet.special_needs = request.form.get('special_needs', pet.special_needs)
+        # Behavioral traits
+        pet.good_with_kids = request.form.get('good_with_kids') == 'on'
+        pet.good_with_pets = request.form.get('good_with_pets') == 'on'
+        pet.good_with_dogs = request.form.get('good_with_dogs') == 'on'
+        pet.good_with_cats = request.form.get('good_with_cats') == 'on'
+        pet.energy_level = request.form.get('energy_level', pet.energy_level)
         
         db.session.commit()
         
