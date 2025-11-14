@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Shelter Dashboard - Pet Adoption System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Shelter Staff Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="bi bi-clipboard-check"></i> Pending Applications</h5>
+                </div>
+                <div class="card-body">
+                    {% if applications %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pet Name</th>
+                                        <th>Applicant</th>
+                                        <th>Date Submitted</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for app in applications %}
+                                    <tr>
+                                        <td>{{ app.pet_name }}</td>
+                                        <td>{{ app.user.name }}</td>
+                                        <td>{{ app.date_submitted.strftime('%Y-%m-%d') }}</td>
+                                        <td>
+                                            {% if app.status == 'pending' %}
+                                                <span class="badge bg-warning">Pending</span>
+                                            {% elif app.status == 'approved' %}
+                                                <span class="badge bg-success">Approved</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Rejected</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('adoption.review_application', application_id=app.id) }}" 
+                                               class="btn btn-sm btn-primary">
+                                                <i class="bi bi-eye"></i> Review
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No pending applications.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-gear"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <a href="http://localhost:5001" target="_blank" class="btn btn-primary me-2">
+                        <i class="bi bi-house-door"></i> Manage Shelter Inventory
+                    </a>
+                    <a href="{{ url_for('pets.browse') }}" class="btn btn-secondary">
+                        <i class="bi bi-search"></i> View All Pets
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

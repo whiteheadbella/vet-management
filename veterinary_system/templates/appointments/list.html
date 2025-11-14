@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Appointments - Veterinary System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2><i class="bi bi-calendar-check-fill text-success"></i> Appointments</h2>
+        <p class="text-muted">Manage veterinary appointments</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="/appointments/schedule" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Schedule Appointment
+        </a>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Status</label>
+                <select class="form-select" name="status">
+                    <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All Statuses</option>
+                    <option value="scheduled" {% if status_filter == 'scheduled' %}selected{% endif %}>Scheduled</option>
+                    <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Completed</option>
+                    <option value="cancelled" {% if status_filter == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Veterinarian</label>
+                <select class="form-select" name="vet_id">
+                    <option value="all" {% if vet_filter == 'all' %}selected{% endif %}>All Vets</option>
+                    {% for vet in vets %}
+                    <option value="{{ vet.id }}" {% if vet_filter == vet.id|string %}selected{% endif %}>{{ vet.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">&nbsp;</label>
+                <div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-filter"></i> Filter</button>
+                    <a href="/appointments/list" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Clear</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Appointments List -->
+<div class="card">
+    <div class="card-body">
+        {% if appointments %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Pet</th>
+                            <th>Owner</th>
+                            <th>Veterinarian</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td>{{ appointment.date.strftime('%Y-%m-%d %H:%M') if appointment.date else 'N/A' }}</td>
+                            <td><strong>{{ appointment.pet_name }}</strong><br><small>ID: {{ appointment.pet_id }}</small></td>
+                            <td>{{ appointment.owner_name }}<br><small>{{ appointment.owner_phone }}</small></td>
+                            <td>{{ appointment.vet.name if appointment.vet else 'N/A' }}</td>
+                            <td>{{ appointment.reason }}</td>
+                            <td>
+                                {% if appointment.status == 'scheduled' %}
+                                    <span class="badge bg-primary">Scheduled</span>
+                                {% elif appointment.status == 'completed' %}
+                                    <span class="badge bg-success">Completed</span>
+                                {% elif appointment.status == 'cancelled' %}
+                                    <span class="badge bg-danger">Cancelled</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="/appointments/{{ appointment.id }}" class="btn btn-sm btn-info">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No appointments found.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

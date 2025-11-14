@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Schedule Appointment{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/appointments/list" class="btn btn-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Appointments
+        </a>
+        <h2><i class="bi bi-calendar-plus text-success"></i> Schedule New Appointment</h2>
+        <p class="text-muted">Book a veterinary appointment for a pet</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-calendar-check"></i> Appointment Details</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/appointments/schedule">
+                    <!-- Pet Information -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-heart-fill text-danger"></i> Pet Information</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Pet ID <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="pet_id" required 
+                                       placeholder="Enter pet ID">
+                                <small class="text-muted">The pet's ID from the shelter system</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Pet Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="pet_name" required 
+                                       placeholder="Enter pet's name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Owner Information -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-person-circle text-info"></i> Owner Information</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Owner Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="owner_name" required 
+                                   placeholder="Enter owner's full name">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" name="owner_phone" required 
+                                       placeholder="(555) 123-4567">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="owner_email" 
+                                       placeholder="owner@example.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointment Details -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-calendar-event text-success"></i> Appointment Details</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Veterinarian <span class="text-danger">*</span></label>
+                            <select class="form-select" name="vet_id" required>
+                                <option value="">Select a veterinarian...</option>
+                                {% for vet in vets %}
+                                <option value="{{ vet.id }}">{{ vet.name }} - {{ vet.specialization }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" name="date" required 
+                                       min="{{ today }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Time <span class="text-danger">*</span></label>
+                                <input type="time" class="form-control" name="time" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Duration (minutes)</label>
+                            <select class="form-select" name="duration">
+                                <option value="15">15 minutes</option>
+                                <option value="30" selected>30 minutes</option>
+                                <option value="45">45 minutes</option>
+                                <option value="60">1 hour</option>
+                                <option value="90">1.5 hours</option>
+                                <option value="120">2 hours</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Reason for Visit <span class="text-danger">*</span></label>
+                            <select class="form-select" name="reason" id="reasonSelect" required>
+                                <option value="">Select reason...</option>
+                                <option value="Annual checkup">Annual checkup</option>
+                                <option value="Vaccination">Vaccination</option>
+                                <option value="Sick visit">Sick visit</option>
+                                <option value="Follow-up examination">Follow-up examination</option>
+                                <option value="Dental cleaning">Dental cleaning</option>
+                                <option value="Surgery consultation">Surgery consultation</option>
+                                <option value="Emergency">Emergency</option>
+                                <option value="Pre-adoption checkup">Pre-adoption checkup</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="reasonOtherDiv" style="display: none;">
+                            <label class="form-label">Please specify</label>
+                            <input type="text" class="form-control" name="reason_other" 
+                                   placeholder="Describe the reason for visit">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Additional Notes</label>
+                            <textarea class="form-control" name="notes" rows="4" 
+                                      placeholder="Any additional information or special requirements..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="/appointments/list" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-calendar-check"></i> Schedule Appointment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Show/hide "Other" reason input
+    document.getElementById('reasonSelect').addEventListener('change', function() {
+        const otherDiv = document.getElementById('reasonOtherDiv');
+        if (this.value === 'Other') {
+            otherDiv.style.display = 'block';
+        } else {
+            otherDiv.style.display = 'none';
+        }
+    });
+
+    // Set minimum date to today
+    const dateInput = document.querySelector('input[type="date"]');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+</script>
+{% endblock %}

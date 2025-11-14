@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Veterinarian Dashboard - Pet Adoption System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Veterinarian Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="bi bi-calendar-check"></i> Upcoming Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">No upcoming appointments scheduled.</p>
+                    <a href="http://localhost:5002/appointments" target="_blank" class="btn btn-success">
+                        <i class="bi bi-calendar-plus"></i> Manage Appointments
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5><i class="bi bi-clipboard-pulse"></i> Health Records</h5>
+                </div>
+                <div class="card-body">
+                    <p>Manage pet health records and vaccination schedules.</p>
+                    <a href="http://localhost:5002" target="_blank" class="btn btn-info">
+                        <i class="bi bi-hospital"></i> Open Vet System
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-info-circle"></i> Veterinary Services</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <h6>Health Records</h6>
+                                    <small class="text-muted">Maintain comprehensive medical histories</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <h6>Vaccinations</h6>
+                                    <small class="text-muted">Track vaccination schedules</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <h6>Appointments</h6>
+                                    <small class="text-muted">Schedule and manage visits</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}{{ vet.name }} - Veterinarian Profile{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/vets/" class="btn btn-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Veterinarians
+        </a>
+        <h2><i class="bi bi-person-badge text-success"></i> {{ vet.name }}</h2>
+        <p class="text-muted">{{ vet.specialization }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Veterinarian Information -->
+    <div class="col-md-8 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-person-circle"></i> Professional Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-envelope"></i> Contact Information</h6>
+                        <p>
+                            <strong>Email:</strong><br>
+                            <a href="mailto:{{ vet.email }}">{{ vet.email }}</a>
+                        </p>
+                        <p>
+                            <strong>Phone:</strong><br>
+                            <a href="tel:{{ vet.phone }}">{{ vet.phone }}</a>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-award"></i> Credentials</h6>
+                        <p>
+                            <strong>Specialization:</strong><br>
+                            {{ vet.specialization }}
+                        </p>
+                        <p>
+                            <strong>License Number:</strong><br>
+                            <code>{{ vet.license_number }}</code>
+                        </p>
+                    </div>
+                </div>
+
+                {% if vet.bio %}
+                <hr>
+                <div class="mb-3">
+                    <h6><i class="bi bi-journal-text"></i> Biography</h6>
+                    <p>{{ vet.bio }}</p>
+                </div>
+                {% endif %}
+
+                <hr>
+
+                <div class="d-flex gap-2">
+                    <a href="/vets/{{ vet.id }}/edit" class="btn btn-primary">
+                        <i class="bi bi-pencil"></i> Edit Profile
+                    </a>
+                    <a href="/vets/" class="btn btn-outline-secondary">
+                        <i class="bi bi-list"></i> All Veterinarians
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Appointments -->
+    <div class="col-md-4">
+        <div class="card shadow mb-3">
+            <div class="card-header bg-success text-white">
+                <h6 class="mb-0"><i class="bi bi-calendar-check"></i> Recent Appointments</h6>
+            </div>
+            <div class="card-body">
+                {% if appointments %}
+                    <div class="list-group list-group-flush">
+                        {% for appointment in appointments[:5] %}
+                        <div class="list-group-item px-0">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">{{ appointment.pet_name }}</h6>
+                                    <small class="text-muted">
+                                        {{ appointment.date.strftime('%b %d, %Y') if appointment.date else 'N/A' }}
+                                    </small><br>
+                                    <span class="badge bg-{{ 'success' if appointment.status == 'completed' else 'primary' if appointment.status == 'scheduled' else 'secondary' }}">
+                                        {{ appointment.status.title() }}
+                                    </span>
+                                </div>
+                                <a href="/appointments/{{ appointment.id }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="/appointments/list?vet_id={{ vet.id }}" class="btn btn-sm btn-outline-success">
+                            View All Appointments
+                        </a>
+                    </div>
+                {% else %}
+                    <p class="text-muted mb-0">No appointments yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h6 class="mb-0"><i class="bi bi-graph-up"></i> Statistics</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h4 class="text-primary">{{ appointments|length }}</h4>
+                    <small class="text-muted">Total Appointments</small>
+                </div>
+                <div class="mb-3">
+                    <h4 class="text-success">
+                        {{ appointments|selectattr('status', 'equalto', 'completed')|list|length }}
+                    </h4>
+                    <small class="text-muted">Completed</small>
+                </div>
+                <div>
+                    <h4 class="text-warning">
+                        {{ appointments|selectattr('status', 'equalto', 'scheduled')|list|length }}
+                    </h4>
+                    <small class="text-muted">Upcoming</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

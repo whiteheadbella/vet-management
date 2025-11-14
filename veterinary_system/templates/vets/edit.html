@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Veterinarian - {{ vet.name }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/vets/{{ vet.id }}" class="btn btn-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Profile
+        </a>
+        <h2><i class="bi bi-pencil-square text-success"></i> Edit Veterinarian Profile</h2>
+        <p class="text-muted">Update professional information</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-person-badge"></i> Veterinarian Information</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <!-- Basic Information -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-person"></i> Basic Information</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" value="{{ vet.name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Specialization <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="specialization" 
+                                   value="{{ vet.specialization }}" required
+                                   placeholder="e.g., General Practice, Surgery, Internal Medicine">
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-telephone"></i> Contact Information</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" name="email" 
+                                   value="{{ vet.email }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" name="phone" 
+                                   value="{{ vet.phone or '' }}"
+                                   placeholder="555-0123">
+                        </div>
+                    </div>
+
+                    <!-- Professional Credentials -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-award"></i> Professional Credentials</h6>
+                        <div class="mb-3">
+                            <label class="form-label">License Number</label>
+                            <input type="text" class="form-control" name="license_number" 
+                                   value="{{ vet.license_number or '' }}"
+                                   placeholder="VET-2020-1234">
+                            <small class="text-muted">Veterinary medical license number</small>
+                        </div>
+                    </div>
+
+                    <!-- Biography -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-journal-text"></i> Professional Biography</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Bio</label>
+                            <textarea class="form-control" name="bio" rows="6">{{ vet.bio or '' }}</textarea>
+                            <small class="text-muted">
+                                Brief description of experience, education, and areas of expertise
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="/vets/{{ vet.id }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const name = document.querySelector('input[name="name"]').value.trim();
+        const email = document.querySelector('input[name="email"]').value.trim();
+        const specialization = document.querySelector('input[name="specialization"]').value.trim();
+        
+        if (!name || !email || !specialization) {
+            e.preventDefault();
+            alert('Please fill in all required fields (marked with *)');
+        }
+    });
+</script>
+{% endblock %}

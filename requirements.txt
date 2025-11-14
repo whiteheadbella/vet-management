@@ -1,0 +1,44 @@
+# Core Framework
+Flask==3.0.0
+Flask-SQLAlchemy==3.1.1
+Flask-CORS==4.0.0
+Flask-Login==0.6.3
+Flask-Migrate==4.0.5
+
+# Database
+SQLAlchemy==2.0.23
+
+# Security
+Werkzeug==3.0.1
+python-dotenv==1.0.0
+PyJWT==2.8.0
+
+# Email
+Flask-Mail==0.9.1
+
+# API Requests
+requests==2.31.0
+
+# Google Calendar Integration
+google-auth==2.25.2
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+google-api-python-client==2.110.0
+
+# Image Processing
+Pillow==10.1.0
+
+# Forms and Validation
+Flask-WTF==1.2.1
+WTForms==3.1.1
+email-validator==2.1.0
+
+# Date/Time
+python-dateutil==2.8.2
+
+# Environment
+python-decouple==3.8
+
+# Development
+pytest==7.4.3
+pytest-flask==1.3.0

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Pet Adoption System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="jumbotron bg-light p-5 rounded-3">
+            <h1 class="display-4">Find Your Perfect Companion</h1>
+            <p class="lead">Connect with loving pets looking for their forever homes. Browse, apply, and adopt online.</p>
+            <hr class="my-4">
+            <p>Whether you're looking for a playful pup or a cuddly cat, we're here to help you find your perfect match.</p>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('pets.browse') }}" role="button">
+                <i class="bi bi-search"></i> Browse Available Pets
+            </a>
+            <a class="btn btn-outline-primary btn-lg ms-2" href="{{ url_for('auth.register') }}" role="button">
+                <i class="bi bi-person-plus"></i> Create Account
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-paw-fill display-1 text-primary"></i>
+                <h3 class="card-title mt-3">Find Pets</h3>
+                <p class="card-text">Search through our adorable dogs and cats looking for homes. Filter by breed, age, size, and more.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-clipboard-heart-fill display-1 text-success"></i>
+                <h3 class="card-title mt-3">Easy Application</h3>
+                <p class="card-text">Submit your adoption application online. Our simple process makes it easy to apply for your future pet.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-heart-pulse-fill display-1 text-danger"></i>
+                <h3 class="card-title mt-3">Post-Adoption Care</h3>
+                <p class="card-text">Access veterinary records, schedule appointments, and receive health updates for your adopted pet.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="text-center mb-4">How It Works</h2>
+    </div>
+    <div class="col-md-3 text-center mb-4">
+        <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width: 80px; height: 80px;">
+            <span class="display-6">1</span>
+        </div>
+        <h5 class="mt-3">Create Account</h5>
+        <p>Sign up for free and complete your profile</p>
+    </div>
+    <div class="col-md-3 text-center mb-4">
+        <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width: 80px; height: 80px;">
+            <span class="display-6">2</span>
+        </div>
+        <h5 class="mt-3">Browse & Search</h5>
+        <p>Find the perfect pet that matches your lifestyle</p>
+    </div>
+    <div class="col-md-3 text-center mb-4">
+        <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width: 80px; height: 80px;">
+            <span class="display-6">3</span>
+        </div>
+        <h5 class="mt-3">Apply Online</h5>
+        <p>Submit your application through our platform</p>
+    </div>
+    <div class="col-md-3 text-center mb-4">
+        <div class="rounded-circle bg-primary text-white d-inline-flex justify-content-center align-items-center" style="width: 80px; height: 80px;">
+            <span class="display-6">4</span>
+        </div>
+        <h5 class="mt-3">Welcome Home!</h5>
+        <p>Meet your new family member and provide love</p>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-light">
+            <div class="card-body text-center p-5">
+                <h2>Ready to Start Your Journey?</h2>
+                <p class="lead">Join thousands of happy pet owners who found their companions through our platform.</p>
+                <a href="{{ url_for('pets.browse') }}" class="btn btn-primary btn-lg me-2">
+                    <i class="bi bi-search"></i> Browse Pets
+                </a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-person-plus"></i> Register Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

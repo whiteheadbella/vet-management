@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+{% block title %}{{ pet.name }} - Pet Details{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('pets.browse') }}">Browse Pets</a></li>
+                <li class="breadcrumb-item active">{{ pet.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Pet Images -->
+    <div class="col-lg-6 mb-4">
+        {% if pet.images and pet.images|length > 0 %}
+            <div id="petCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    {% for img in pet.images %}
+                    <button type="button" data-bs-target="#petCarousel" data-bs-slide-to="{{ loop.index0 }}" 
+                            {% if loop.first %}class="active"{% endif %}></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner rounded">
+                    {% for img in pet.images %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ img.image_url }}" class="d-block w-100" alt="{{ pet.name }}" style="max-height: 500px; object-fit: cover;">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if pet.images|length > 1 %}
+                <button class="carousel-control-prev" type="button" data-bs-target="#petCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#petCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="height: 400px;">
+                <i class="bi bi-{% if pet.species == 'dog' %}dog{% else %}cat{% endif %} display-1 text-white"></i>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Pet Details -->
+    <div class="col-lg-6">
+        <h1>{{ pet.name }}</h1>
+        <h5 class="text-muted mb-4">
+            <span class="badge bg-{% if pet.species == 'dog' %}primary{% else %}info{% endif %} me-2">
+                <i class="bi bi-{% if pet.species == 'dog' %}dog{% else %}cat{% endif %}"></i> {{ pet.species|title }}
+            </span>
+            <span class="badge bg-success">{{ pet.status|title }}</span>
+        </h5>
+
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Basic Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <strong><i class="bi bi-tag"></i> Breed:</strong> {{ pet.breed or 'Mixed' }}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <strong><i class="bi bi-calendar"></i> Age:</strong> {{ pet.age or 'Unknown' }} years
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <strong><i class="bi bi-gender-ambiguous"></i> Gender:</strong> {{ pet.gender|title or 'Unknown' }}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <strong><i class="bi bi-palette"></i> Color:</strong> {{ pet.color or 'Various' }}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <strong><i class="bi bi-arrows-angle-expand"></i> Size:</strong> {{ pet.size|title or 'Medium' }}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <strong><i class="bi bi-lightning"></i> Energy Level:</strong> {{ pet.energy_level|title or 'Moderate' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-card-text"></i> About {{ pet.name }}</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ pet.description or 'This adorable pet is looking for a loving forever home!' }}</p>
+            </div>
+        </div>
+
+        <!-- Medical & Behavioral -->
+        <div class="card mb-3">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-heart-pulse"></i> Health & Behavior</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        {% if pet.vaccinated %}
+                        <i class="bi bi-check-circle-fill text-success"></i> Vaccinated
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-danger"></i> Not Vaccinated
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        {% if pet.spayed_neutered %}
+                        <i class="bi bi-check-circle-fill text-success"></i> Spayed/Neutered
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-danger"></i> Not Spayed/Neutered
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        {% if pet.microchipped %}
+                        <i class="bi bi-check-circle-fill text-success"></i> Microchipped
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-danger"></i> Not Microchipped
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        {% if pet.good_with_kids %}
+                        <i class="bi bi-check-circle-fill text-success"></i> Good with Kids
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-warning"></i> Not for Kids
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        {% if pet.good_with_dogs %}
+                        <i class="bi bi-check-circle-fill text-success"></i> Good with Dogs
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-warning"></i> Not for Dogs
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        {% if pet.good_with_cats %}
+                        <i class="bi bi-check-circle-fill text-success"></i> Good with Cats
+                        {% else %}
+                        <i class="bi bi-x-circle-fill text-warning"></i> Not for Cats
+                        {% endif %}
+                    </div>
+                </div>
+                {% if pet.special_needs %}
+                <div class="alert alert-warning mt-3 mb-0">
+                    <strong><i class="bi bi-exclamation-triangle"></i> Special Needs:</strong> {{ pet.special_needs }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if pet.species == 'dog' and (pet.characteristics or pet.trainability) %}
+        <!-- Dog-Specific Traits -->
+        <div class="card mb-3">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="bi bi-stars"></i> Characteristics</h5>
+            </div>
+            <div class="card-body">
+                {% if pet.characteristics %}
+                <p><strong>Traits:</strong> {{ pet.characteristics }}</p>
+                {% endif %}
+                <div class="row">
+                    {% if pet.trainability %}
+                    <div class="col-md-6">
+                        <strong>Trainability:</strong> {{ pet.trainability|title }}
+                    </div>
+                    {% endif %}
+                    {% if pet.activity_level %}
+                    <div class="col-md-6">
+                        <strong>Activity Level:</strong> {{ pet.activity_level|title }}
+                    </div>
+                    {% endif %}
+                    {% if pet.barking_level %}
+                    <div class="col-md-6">
+                        <strong>Barking Level:</strong> {{ pet.barking_level|title }}
+                    </div>
+                    {% endif %}
+                    {% if pet.shedding %}
+                    <div class="col-md-6">
+                        <strong>Shedding:</strong> {{ pet.shedding|title }}
+                    </div>
+                    {% endif %}
+                    {% if pet.coat_type %}
+                    <div class="col-md-6">
+                        <strong>Coat Type:</strong> {{ pet.coat_type }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Adoption Info -->
+        <div class="card mb-3">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="bi bi-cash-coin"></i> Adoption Information</h5>
+            </div>
+            <div class="card-body">
+                <h4 class="text-success">Adoption Fee: ${{ "%.2f"|format(pet.adoption_fee or 0) }}</h4>
+                {% if pet.intake_date %}
+                <p class="text-muted mb-0"><small>Available since: {{ pet.intake_date[:10] }}</small></p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-grid gap-2">
+            {% if current_user.is_authenticated and current_user.role == 'adopter' %}
+                {% if has_applied %}
+                <button class="btn btn-secondary btn-lg" disabled>
+                    <i class="bi bi-check-circle"></i> Application Submitted
+                </button>
+                {% else %}
+                <a href="{{ url_for('adoption.apply', pet_id=pet.id) }}" class="btn btn-success btn-lg">
+                    <i class="bi bi-heart-fill"></i> Apply to Adopt {{ pet.name }}
+                </a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-person-circle"></i> Login to Apply
+                </a>
+            {% endif %}
+            <a href="{{ url_for('pets.browse') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Browse
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Health Records Section (if available) -->
+{% if current_user.is_authenticated %}
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-clipboard2-pulse"></i> Health Records</h5>
+            </div>
+            <div class="card-body">
+                <div id="healthRecords">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading health records...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Load health records via AJAX
+fetch(`/api/health/${{{ pet.id }}}`)
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById('healthRecords');
+        if (data && data.id) {
+            container.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-syringe"></i> Vaccinations</h6>
+                        <ul class="list-group mb-3">
+                            ${data.rabies_vaccine ? '<li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Rabies</li>' : ''}
+                            ${data.dhpp_vaccine ? '<li class="list-group-item"><i class="bi bi-check-circle text-success"></i> DHPP (Dogs)</li>' : ''}
+                            ${data.fvrcp_vaccine ? '<li class="list-group-item"><i class="bi bi-check-circle text-success"></i> FVRCP (Cats)</li>' : ''}
+                            ${data.bordetella_vaccine ? '<li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Bordetella</li>' : ''}
+                            ${data.leukemia_vaccine ? '<li class="list-group-item"><i class="bi bi-check-circle text-success"></i> Feline Leukemia</li>' : ''}
+                        </ul>
+                        <h6><i class="bi bi-bug"></i> Parasite Prevention</h6>
+                        <p><strong>Last Deworming:</strong> ${data.last_deworming || 'Not recorded'}</p>
+                        <p><strong>Flea/Tick Prevention:</strong> ${data.flea_tick_prevention || 'Not recorded'}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-clipboard-check"></i> Physical Exam</h6>
+                        <p><strong>Weight:</strong> ${data.weight || 'Not recorded'} lbs</p>
+                        <p><strong>Last Exam:</strong> ${data.last_exam_date || 'Not recorded'}</p>
+                        ${data.medical_notes ? `<div class="alert alert-info"><strong>Notes:</strong> ${data.medical_notes}</div>` : ''}
+                    </div>
+                </div>
+            `;
+        } else {
+            container.innerHTML = '<div class="alert alert-warning">No health records available yet.</div>';
+        }
+    })
+    .catch(error => {
+        document.getElementById('healthRecords').innerHTML = 
+            '<div class="alert alert-danger">Unable to load health records at this time.</div>';
+    });
+</script>
+{% endif %}
+
+{% endblock %}

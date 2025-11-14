@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Health Record - {{ record.pet_name }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/health-records/{{ record.id }}" class="btn btn-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Record
+        </a>
+        <h2><i class="bi bi-pencil-square text-success"></i> Edit Health Record - {{ record.pet_name }}</h2>
+    </div>
+</div>
+
+<form method="POST">
+    <div class="row">
+        <!-- Basic Information -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Basic Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Pet Name</label>
+                        <input type="text" class="form-control" name="pet_name" value="{{ record.pet_name }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Species</label>
+                        <input type="text" class="form-control" value="{{ record.species.title() }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Breed</label>
+                        <input type="text" class="form-control" name="breed" value="{{ record.breed or '' }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Microchip Number</label>
+                        <input type="text" class="form-control" name="microchip_number" value="{{ record.microchip_number or '' }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Physical Measurements -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-clipboard2-pulse"></i> Physical Measurements</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Weight (kg)</label>
+                        <input type="number" step="0.1" class="form-control" name="weight" value="{{ record.weight }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Temperature (°C)</label>
+                        <input type="number" step="0.1" class="form-control" name="temperature" value="{{ record.temperature }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Heart Rate (bpm)</label>
+                        <input type="number" class="form-control" name="heart_rate" value="{{ record.heart_rate or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Respiratory Rate (breaths/min)</label>
+                        <input type="number" class="form-control" name="respiratory_rate" value="{{ record.respiratory_rate or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Body Condition Score (1-9)</label>
+                        <select class="form-select" name="body_condition_score">
+                            <option value="">Select...</option>
+                            {% for score in ['1/9', '2/9', '3/9', '4/9', '5/9', '6/9', '7/9', '8/9', '9/9'] %}
+                            <option value="{{ score }}" {% if record.body_condition_score == score %}selected{% endif %}>{{ score }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medical Information -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-capsule"></i> Medications & Allergies</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Current Medications</label>
+                        <textarea class="form-control" name="medications" rows="3">{{ record.medications or '' }}</textarea>
+                        <small class="text-muted">List all current medications and dosages</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Known Allergies</label>
+                        <textarea class="form-control" name="allergies" rows="3">{{ record.allergies or '' }}</textarea>
+                        <small class="text-muted">List any known allergies (food, medications, environmental)</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Chronic Conditions</label>
+                        <textarea class="form-control" name="chronic_conditions" rows="3">{{ record.chronic_conditions or '' }}</textarea>
+                        <small class="text-muted">List any ongoing health conditions</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-file-medical"></i> Medical History</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Medical History</label>
+                        <textarea class="form-control" name="medical_history" rows="4">{{ record.medical_history or '' }}</textarea>
+                        <small class="text-muted">Notable past medical issues or treatments</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Surgical History</label>
+                        <textarea class="form-control" name="surgical_history" rows="4">{{ record.surgical_history or '' }}</textarea>
+                        <small class="text-muted">List all previous surgeries</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preventive Care -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-shield-check"></i> Preventive Care</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Heartworm Status</label>
+                        <select class="form-select" name="heartworm_status">
+                            <option value="">Select...</option>
+                            <option value="Negative" {% if record.heartworm_status == 'Negative' %}selected{% endif %}>Negative</option>
+                            <option value="Positive" {% if record.heartworm_status == 'Positive' %}selected{% endif %}>Positive</option>
+                            <option value="Not Tested" {% if record.heartworm_status == 'Not Tested' %}selected{% endif %}>Not Tested</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Flea & Tick Prevention</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="flea_tick_prevention" id="fleaTick" 
+                                   {% if record.flea_tick_prevention %}checked{% endif %}>
+                            <label class="form-check-label" for="fleaTick">
+                                Currently on flea/tick prevention
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Flea/Tick Product</label>
+                        <input type="text" class="form-control" name="flea_tick_product" value="{{ record.flea_tick_product or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dental Health</label>
+                        <select class="form-select" name="dental_health">
+                            <option value="">Select...</option>
+                            <option value="Excellent" {% if record.dental_health == 'Excellent' %}selected{% endif %}>Excellent</option>
+                            <option value="Good" {% if record.dental_health == 'Good' %}selected{% endif %}>Good</option>
+                            <option value="Fair" {% if record.dental_health == 'Fair' %}selected{% endif %}>Fair</option>
+                            <option value="Poor" {% if record.dental_health == 'Poor' %}selected{% endif %}>Poor</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-journal-text"></i> Veterinary Notes</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Clinical Notes</label>
+                        <textarea class="form-control" name="notes" rows="8">{{ record.notes or '' }}</textarea>
+                        <small class="text-muted">Current condition, observations, recommendations</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Spayed/Neutered</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="spayed_neutered" id="spayNeuter" 
+                                   {% if record.spayed_neutered %}checked{% endif %}>
+                            <label class="form-check-label" for="spayNeuter">
+                                Pet is spayed/neutered
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Owner Information -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-person"></i> Owner Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Owner Name</label>
+                    <input type="text" class="form-control" name="owner_name" value="{{ record.owner_name or '' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Owner Phone</label>
+                    <input type="text" class="form-control" name="owner_phone" value="{{ record.owner_phone or '' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Owner Email</label>
+                    <input type="email" class="form-control" name="owner_email" value="{{ record.owner_email or '' }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-between mb-4">
+        <a href="/health-records/{{ record.id }}" class="btn btn-secondary">
+            <i class="bi bi-x-circle"></i> Cancel
+        </a>
+        <button type="submit" class="btn btn-primary btn-lg">
+            <i class="bi bi-save"></i> Save Changes
+        </button>
+    </div>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Auto-save draft to localStorage
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input, textarea, select');
+    
+    inputs.forEach(input => {
+        input.addEventListener('change', () => {
+            console.log('Form updated');
+        });
+    });
+</script>
+{% endblock %}

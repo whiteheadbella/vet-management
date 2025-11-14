@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelter Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .stat-card {
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-house-heart-fill"></i> Shelter Management System
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pets">Manage Pets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pets/add">Add Pet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api/pets/">API Docs</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="display-4"><i class="bi bi-house-heart"></i> Welcome to Shelter Management System</h1>
+                    <p class="lead">Manage your shelter's pet inventory and provide API services for the adoption platform.</p>
+                    <p class="text-muted">This system handles all pets inside the shelter and supplies the Adoption System with pet data.</p>
+                </div>
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-shield-check" style="font-size: 120px; color: #0d6efd;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Dashboard -->
+    <div class="container mt-5">
+        <h2 class="mb-4"><i class="bi bi-graph-up"></i> Statistics</h2>
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card stat-card text-center border-primary">
+                    <div class="card-body">
+                        <i class="bi bi-paw feature-icon"></i>
+                        <h3 class="mt-3">{{ stats.total_pets }}</h3>
+                        <p class="text-muted mb-0">Total Pets</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card stat-card text-center border-success">
+                    <div class="card-body">
+                        <i class="bi bi-check-circle feature-icon text-success"></i>
+                        <h3 class="mt-3">{{ stats.available }}</h3>
+                        <p class="text-muted mb-0">Available</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card stat-card text-center border-warning">
+                    <div class="card-body">
+                        <i class="bi bi-clock-history feature-icon text-warning"></i>
+                        <h3 class="mt-3">{{ stats.pending }}</h3>
+                        <p class="text-muted mb-0">Pending Adoption</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card stat-card text-center border-info">
+                    <div class="card-body">
+                        <i class="bi bi-heart feature-icon text-info"></i>
+                        <h3 class="mt-3">{{ stats.adopted }}</h3>
+                        <p class="text-muted mb-0">Adopted</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Features -->
+        <h2 class="mt-5 mb-4"><i class="bi bi-list-check"></i> What This System Does</h2>
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-plus-circle feature-icon text-success"></i>
+                        <h5 class="card-title mt-3">Add Pets</h5>
+                        <p class="card-text">Staff enters new pets into database with complete information</p>
+                        <a href="/pets/add" class="btn btn-success">Add New Pet</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-arrow-repeat feature-icon text-warning"></i>
+                        <h5 class="card-title mt-3">Update Pet Status</h5>
+                        <p class="card-text">Mark pet as "Available" / "Adopted" / "Pending"</p>
+                        <a href="/pets" class="btn btn-warning">Manage Status</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-cloud-arrow-up feature-icon text-info"></i>
+                        <h5 class="card-title mt-3">Upload Pet Images</h5>
+                        <p class="card-text">Store pet photos with captions and manage gallery</p>
+                        <a href="/pets" class="btn btn-info text-white">Upload Images</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-diagram-3 feature-icon"></i>
+                        <h5 class="card-title mt-3">Sync With Adoption</h5>
+                        <p class="card-text">Provides API for pet list and pet status updates</p>
+                        <a href="/api/pets/" class="btn btn-primary">View API</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <h3><i class="bi bi-clock-history"></i> Recent Additions</h3>
+                <div class="list-group">
+                    {% if stats.recent_additions %}
+                        {% for pet in stats.recent_additions %}
+                        <a href="/pets/{{ pet.id }}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ pet.name }}</h5>
+                                <small>{{ pet.created_at.strftime('%Y-%m-%d') if pet.created_at else 'N/A' }}</small>
+                            </div>
+                            <p class="mb-1">{{ pet.species|title }} - {{ pet.breed or 'Mixed' }}</p>
+                            <small>
+                                <span class="badge bg-{{ 'success' if pet.status == 'available' else 'warning' if pet.status == 'pending' else 'secondary' }}">
+                                    {{ pet.status|title }}
+                                </span>
+                            </small>
+                        </a>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info">No pets in system yet. <a href="/pets/add">Add your first pet!</a></div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h3><i class="bi bi-activity"></i> Activity Log</h3>
+                <div class="list-group">
+                    {% if stats.recent_logs %}
+                        {% for log in stats.recent_logs %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ log.action|title }}</h6>
+                                <small>{{ log.timestamp.strftime('%H:%M') if log.timestamp else '' }}</small>
+                            </div>
+                            <p class="mb-1 text-muted small">{{ log.description or 'No description' }}</p>
+                            <small class="text-muted">{{ log.performed_by or 'System' }}</small>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info">No activity logged yet.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-5 mb-5">
+            <h2><i class="bi bi-lightning"></i> Quick Actions</h2>
+            <div class="d-grid gap-2 d-md-flex">
+                <a href="/pets/add" class="btn btn-primary btn-lg"><i class="bi bi-plus-circle"></i> Add New Pet</a>
+                <a href="/pets" class="btn btn-success btn-lg"><i class="bi bi-list"></i> View All Pets</a>
+                <a href="/api/pets/" class="btn btn-info btn-lg text-white"><i class="bi bi-code-square"></i> Test API</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto py-4 bg-light">
+        <div class="container text-center">
+            <p class="text-muted mb-0">
+                <i class="bi bi-server"></i> Shelter Management System - Port 5001
+            </p>
+            <small class="text-muted">
+                Providing data to Adoption System (Port 5000) | 
+                Integrated with Veterinary System (Port 5002)
+            </small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

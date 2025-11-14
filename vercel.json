@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "adoption_system/app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "adoption_system/app.py"
+    }
+  ],
+  "env": {
+    "FLASK_ENV": "production",
+    "ADOPTION_SYSTEM_URL": "@adoption_system_url",
+    "SHELTER_SYSTEM_URL": "@shelter_system_url",
+    "VETERINARY_SYSTEM_URL": "@veterinary_system_url"
+  }
+}

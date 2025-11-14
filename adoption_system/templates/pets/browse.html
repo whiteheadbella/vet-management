@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Pets - Pet Adoption System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1><i class="bi bi-search"></i> Browse Available Pets</h1>
+        <p class="lead">Find your perfect companion from our available pets</p>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('pets.browse') }}" id="filterForm">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Species</label>
+                            <select name="species" id="speciesSelect" class="form-select">
+                                <option value="all" {% if filters.species == 'all' %}selected{% endif %}>All</option>
+                                <option value="dog" {% if filters.species == 'dog' %}selected{% endif %}>Dogs</option>
+                                <option value="cat" {% if filters.species == 'cat' %}selected{% endif %}>Cats</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Breed</label>
+                            <select name="breed" id="breedSelect" class="form-select">
+                                <option value="">Any breed</option>
+                                <!-- Dog breeds (shown when species=dog) -->
+                                {% if dog_breeds %}
+                                    {% for breed in dog_breeds %}
+                                    <option value="{{ breed }}" class="dog-breed" {% if filters.breed == breed %}selected{% endif %}>{{ breed|title }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                                <!-- Cat breeds (shown when species=cat) -->
+                                {% if cat_breeds %}
+                                    {% for breed in cat_breeds %}
+                                    <option value="{{ breed }}" class="cat-breed" {% if filters.breed == breed %}selected{% endif %}>{{ breed }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label">Age</label>
+                            <input type="number" name="age" class="form-control" value="{{ filters.age }}" placeholder="Any age">
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label">Gender</label>
+                            <select name="gender" class="form-select">
+                                <option value="">Any</option>
+                                <option value="male" {% if filters.gender == 'male' %}selected{% endif %}>Male</option>
+                                <option value="female" {% if filters.gender == 'female' %}selected{% endif %}>Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-funnel"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <script>
+                // Filter breeds based on selected species
+                document.addEventListener('DOMContentLoaded', function() {
+                    const speciesSelect = document.getElementById('speciesSelect');
+                    const breedSelect = document.getElementById('breedSelect');
+                    
+                    function filterBreeds() {
+                        const selectedSpecies = speciesSelect.value;
+                        const breedOptions = breedSelect.querySelectorAll('option');
+                        
+                        breedOptions.forEach(option => {
+                            if (option.value === '') {
+                                option.style.display = 'block'; // Always show "Any breed"
+                                return;
+                            }
+                            
+                            if (selectedSpecies === 'all') {
+                                option.style.display = 'block'; // Show all breeds
+                            } else if (selectedSpecies === 'dog') {
+                                option.style.display = option.classList.contains('dog-breed') ? 'block' : 'none';
+                            } else if (selectedSpecies === 'cat') {
+                                option.style.display = option.classList.contains('cat-breed') ? 'block' : 'none';
+                            }
+                        });
+                        
+                        // Reset breed selection if current breed doesn't match species
+                        const currentBreedOption = breedSelect.querySelector(`option[value="${breedSelect.value}"]`);
+                        if (currentBreedOption && currentBreedOption.style.display === 'none') {
+                            breedSelect.value = '';
+                        }
+                    }
+                    
+                    // Filter on page load
+                    filterBreeds();
+                    
+                    // Filter when species changes
+                    speciesSelect.addEventListener('change', filterBreeds);
+                });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pet Grid -->
+<div class="row">
+    {% if pets and pets.pets %}
+        {% for pet in pets.pets %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if pet.images and pet.images|length > 0 %}
+                    <img src="{{ pet.images[0].image_url }}" class="card-img-top pet-card-img" alt="{{ pet.name }}">
+                {% else %}
+                    <div class="card-img-top pet-card-img bg-secondary d-flex align-items-center justify-content-center">
+                        <i class="bi bi-{% if pet.species == 'dog' %}dog{% else %}cat{% endif %} display-1 text-white"></i>
+                    </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ pet.name }}
+                        <span class="badge bg-{% if pet.species == 'dog' %}primary{% else %}info{% endif %}">
+                            {{ pet.species|title }}
+                        </span>
+                    </h5>
+                    <p class="card-text">
+                        <strong>Breed:</strong> {{ pet.breed }}<br>
+                        <strong>Age:</strong> {{ pet.age }} years<br>
+                        <strong>Gender:</strong> {{ pet.gender|title }}<br>
+                        {% if pet.vaccinated %}
+                            <span class="badge bg-success">Vaccinated</span>
+                        {% endif %}
+                        {% if pet.spayed_neutered %}
+                            <span class="badge bg-success">Spayed/Neutered</span>
+                        {% endif %}
+                    </p>
+                    <p class="card-text text-muted">{{ pet.description[:100] }}...</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{{ url_for('pets.detail', pet_id=pet.id) }}" class="btn btn-primary w-100">
+                        <i class="bi bi-eye"></i> View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <i class="bi bi-info-circle display-1"></i>
+                <h4 class="mt-3">No pets found</h4>
+                <p>Try adjusting your filters or check back later for new additions.</p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Pagination -->
+{% if pets and pets.pages > 1 %}
+<div class="row">
+    <div class="col-12">
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% for page_num in range(1, pets.pages + 1) %}
+                    <li class="page-item {% if page_num == pets.current_page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('pets.browse', page=page_num, species=filters.species, breed=filters.breed, age=filters.age, gender=filters.gender) }}">
+                            {{ page_num }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

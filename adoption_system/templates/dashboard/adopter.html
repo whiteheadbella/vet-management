@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}My Dashboard - Pet Adoption System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Welcome, {{ current_user.name }}!</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="bi bi-file-text"></i> My Applications</h5>
+                </div>
+                <div class="card-body">
+                    {% if applications %}
+                        <div class="list-group">
+                            {% for app in applications %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ app.pet_name }}</h6>
+                                    <small>
+                                        {% if app.status == 'pending' %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% elif app.status == 'approved' %}
+                                            <span class="badge bg-success">Approved</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Rejected</span>
+                                        {% endif %}
+                                    </small>
+                                </div>
+                                <small class="text-muted">Submitted: {{ app.date_submitted.strftime('%Y-%m-%d') }}</small>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">You haven't submitted any applications yet.</p>
+                        <a href="{{ url_for('pets.browse') }}" class="btn btn-primary">
+                            <i class="bi bi-search"></i> Browse Pets
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="bi bi-heart-fill"></i> My Adopted Pets</h5>
+                </div>
+                <div class="card-body">
+                    {% if adopted_pets %}
+                        <div class="list-group">
+                            {% for pet in adopted_pets %}
+                            <div class="list-group-item">
+                                <h6>{{ pet.pet_name }}</h6>
+                                <small class="text-muted">Adopted: {{ pet.adoption_date.strftime('%Y-%m-%d') }}</small>
+                                {% if pet.microchip_number %}
+                                <br><small>Microchip: {{ pet.microchip_number }}</small>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">You haven't adopted any pets yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-gear"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <a href="{{ url_for('pets.browse') }}" class="btn btn-primary me-2">
+                        <i class="bi bi-search"></i> Browse Pets
+                    </a>
+                    <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-secondary">
+                        <i class="bi bi-person-gear"></i> Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

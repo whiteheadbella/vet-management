@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Appointment Details{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/appointments/list" class="btn btn-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Appointments
+        </a>
+        <h2><i class="bi bi-calendar-event text-success"></i> Appointment Details</h2>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Appointment Information -->
+    <div class="col-md-8 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Appointment Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6>Date & Time</h6>
+                        <p class="lead">
+                            <i class="bi bi-calendar3"></i>
+                            {{ appointment.date.strftime('%A, %B %d, %Y') if appointment.date else 'N/A' }}<br>
+                            <i class="bi bi-clock"></i>
+                            {{ appointment.date.strftime('%I:%M %p') if appointment.date else 'N/A' }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Duration</h6>
+                        <p class="lead">{{ appointment.duration }} minutes</p>
+                        
+                        <h6>Status</h6>
+                        <p>
+                            {% if appointment.status == 'scheduled' %}
+                                <span class="badge bg-primary fs-6">Scheduled</span>
+                            {% elif appointment.status == 'completed' %}
+                                <span class="badge bg-success fs-6">Completed</span>
+                            {% elif appointment.status == 'cancelled' %}
+                                <span class="badge bg-danger fs-6">Cancelled</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-heart-fill text-danger"></i> Pet Information</h6>
+                        <p>
+                            <strong>Name:</strong> {{ appointment.pet_name }}<br>
+                            <strong>Pet ID:</strong> {{ appointment.pet_id }}
+                        </p>
+                        <a href="/health-records?search={{ appointment.pet_id }}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-file-medical"></i> View Health Record
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-person-circle text-info"></i> Owner Information</h6>
+                        <p>
+                            <strong>Name:</strong> {{ appointment.owner_name }}<br>
+                            <strong>Phone:</strong> {{ appointment.owner_phone }}<br>
+                            <strong>Email:</strong> {{ appointment.owner_email }}
+                        </p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+                    <h6><i class="bi bi-person-badge text-success"></i> Veterinarian</h6>
+                    <p>
+                        <strong>{{ appointment.vet.name if appointment.vet else 'Not Assigned' }}</strong><br>
+                        {% if appointment.vet %}
+                        <small class="text-muted">{{ appointment.vet.specialization }}</small>
+                        {% endif %}
+                    </p>
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+                    <h6><i class="bi bi-clipboard2-pulse"></i> Reason for Visit</h6>
+                    <p class="lead">{{ appointment.reason }}</p>
+                </div>
+
+                {% if appointment.notes %}
+                <div class="mb-3">
+                    <h6><i class="bi bi-journal-text"></i> Notes</h6>
+                    <p>{{ appointment.notes }}</p>
+                </div>
+                {% endif %}
+
+                {% if appointment.google_calendar_event_id %}
+                <div class="alert alert-info">
+                    <i class="bi bi-calendar-check"></i> This appointment is synced with Google Calendar
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-gear"></i> Actions</h5>
+            </div>
+            <div class="card-body">
+                {% if appointment.status == 'scheduled' %}
+                <!-- Update Status Form -->
+                <form method="POST" action="/appointments/{{ appointment.id }}/update" class="mb-3">
+                    <div class="mb-3">
+                        <label class="form-label">Update Status</label>
+                        <select class="form-select" name="status" required>
+                            <option value="scheduled" selected>Scheduled</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Add Notes</label>
+                        <textarea class="form-control" name="notes" rows="3">{{ appointment.notes or '' }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mb-2">
+                        <i class="bi bi-check-circle"></i> Update Status
+                    </button>
+                </form>
+
+                <form method="POST" action="/appointments/{{ appointment.id }}/cancel" 
+                      onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class="bi bi-x-circle"></i> Cancel Appointment
+                    </button>
+                </form>
+                {% else %}
+                <div class="alert alert-secondary">
+                    <i class="bi bi-info-circle"></i> This appointment is {{ appointment.status }}
+                </div>
+                {% endif %}
+
+                <hr>
+
+                <a href="/appointments/list" class="btn btn-outline-secondary w-100 mt-2">
+                    <i class="bi bi-list"></i> All Appointments
+                </a>
+            </div>
+        </div>
+
+        <!-- Appointment History -->
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h6 class="mb-0"><i class="bi bi-clock-history"></i> Appointment Info</h6>
+            </div>
+            <div class="card-body">
+                <p class="small">
+                    <strong>Created:</strong><br>
+                    {{ appointment.created_at.strftime('%Y-%m-%d %H:%M') if appointment.created_at else 'N/A' }}
+                </p>
+                <p class="small">
+                    <strong>Last Updated:</strong><br>
+                    {{ appointment.updated_at.strftime('%Y-%m-%d %H:%M') if appointment.updated_at else 'N/A' }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

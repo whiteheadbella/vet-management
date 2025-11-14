@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veterinary Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-hospital"></i> Veterinary Management System
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="mb-4">Welcome to Veterinary Management System</h1>
+                <p class="lead">Manage pet health records, appointments, and provide veterinary services.</p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-clipboard-pulse"></i> Health Records</h5>
+                        <p class="card-text">Manage and track pet health records and vaccinations.</p>
+                        <a href="/health-records" class="btn btn-success">View Records</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-calendar-check"></i> Appointments</h5>
+                        <p class="card-text">Schedule and manage veterinary appointments.</p>
+                        <a href="/appointments/list" class="btn btn-success">View Appointments</a>
+                        <a href="/appointments/schedule" class="btn btn-outline-success mt-2">Schedule New</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-people"></i> Veterinarians</h5>
+                        <p class="card-text">Manage veterinarian profiles and specializations.</p>
+                        <a href="/vets" class="btn btn-success">View Vets</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h3>API Endpoints</h3>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        GET /api/health-records/{pet_id} - Get pet health records
+                    </li>
+                    <li class="list-group-item">
+                        POST /api/health-records/ - Create health record
+                    </li>
+                    <li class="list-group-item">
+                        GET /api/appointments/ - List all appointments
+                    </li>
+                    <li class="list-group-item">
+                        POST /api/appointments/ - Schedule appointment
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 py-3 bg-light">
+        <div class="container text-center">
+            <p class="text-muted">Veterinary Management System - Port 5002</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

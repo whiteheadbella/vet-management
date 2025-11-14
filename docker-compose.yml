@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  adoption-system:
+    build: .
+    command: gunicorn adoption_system.app:app --bind 0.0.0.0:5000 --workers 2
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - ADOPTION_SYSTEM_URL=http://localhost:5000
+      - SHELTER_SYSTEM_URL=http://localhost:5001
+      - VETERINARY_SYSTEM_URL=http://localhost:5002
+    volumes:
+      - ./adoption_system.db:/app/adoption_system.db
+    networks:
+      - pet-adoption-network
+    depends_on:
+      - shelter-system
+      - veterinary-system
+
+  shelter-system:
+    build: .
+    command: gunicorn shelter_system.app:app --bind 0.0.0.0:5001 --workers 2
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=production
+    volumes:
+      - ./shelter_system.db:/app/shelter_system.db
+      - ./static/uploads:/app/static/uploads
+    networks:
+      - pet-adoption-network
+
+  veterinary-system:
+    build: .
+    command: gunicorn veterinary_system.app:app --bind 0.0.0.0:5002 --workers 2
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=production
+    volumes:
+      - ./veterinary_system.db:/app/veterinary_system.db
+    networks:
+      - pet-adoption-network
+
+networks:
+  pet-adoption-network:
+    driver: bridge
