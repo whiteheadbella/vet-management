@@ -55,8 +55,7 @@ This project consists of three integrated systems:
 - **Database**: SQLite (development) / PostgreSQL (production)
 - **Frontend**: HTML, CSS, JavaScript (Bootstrap)
 - **APIs**: 
-  - Dog API (https://dog.ceo/dog-api/)
-  - Cat API (https://thecatapi.com/)
+
   - Google Calendar API
   - Email (SMTP)
 
@@ -313,7 +312,7 @@ Educational Project - 2025
 
 ---
 
-## 🎓 For Students & Presenters
+## 🎓  Presenters
 
 **Pre-Presentation Checklist:**
 - [ ] Choose deployment method (Docker/Render/Local)
