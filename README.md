@@ -52,8 +52,7 @@ This project consists of three integrated systems:
 - **Database**: SQLite (development) / PostgreSQL (production)
 - **Frontend**: HTML, CSS, JavaScript (Bootstrap)
 - **APIs**: 
-  - Dog API (https://dog.ceo/dog-api/)
-  - Cat API (https://thecatapi.com/)
+
   - Google Calendar API
   - Email (SMTP)
 
