@@ -72,13 +72,17 @@ def detail(pet_id):
     
     # Check if user has already applied
     has_applied = False
-    if current_user.is_authenticated and current_user.role == 'adopter':
-        from models import AdoptionApplication
-        has_applied = AdoptionApplication.query.filter_by(
-            user_id=current_user.id,
-            pet_id=pet_id,
-            status='pending'
-        ).first() is not None
+    try:
+        if current_user.is_authenticated and hasattr(current_user, 'role') and current_user.role == 'adopter':
+            from models import AdoptionApplication
+            has_applied = AdoptionApplication.query.filter_by(
+                user_id=current_user.id,
+                pet_id=pet_id,
+                status='pending'
+            ).first() is not None
+    except:
+        # User authentication not configured
+        has_applied = False
     
     return render_template('pets/detail.html',
                           pet=pet,
