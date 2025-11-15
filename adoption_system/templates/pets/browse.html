@@ -139,7 +139,7 @@
                             <span class="badge bg-success">Spayed/Neutered</span>
                         {% endif %}
                     </p>
-                    <p class="card-text text-muted">{{ pet.description[:100] }}...</p>
+                    <p class="card-text text-muted">{{ pet.description|truncate(100) }}</p>
                 </div>
                 <div class="card-footer bg-transparent">
                     <a href="{{ url_for('pets.detail', pet_id=pet.id) }}" class="btn btn-primary w-100">
