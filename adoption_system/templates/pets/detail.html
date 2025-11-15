@@ -204,7 +204,7 @@
             <div class="card-body">
                 <h4 class="text-success">Adoption Fee: ${{ "%.2f"|format(pet.adoption_fee or 0) }}</h4>
                 {% if pet.intake_date %}
-                <p class="text-muted mb-0"><small>Available since: {{ pet.intake_date[:10] }}</small></p>
+                <p class="text-muted mb-0"><small>Available since: {{ pet.intake_date|string|truncate(10, True, '') }}</small></p>
                 {% endif %}
             </div>
         </div>
