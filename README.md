@@ -1,28 +1,29 @@
-# Pet Adoption System - Comprehensive Platform
+# 🐾 Pet Adoption Management System
 
-A complete pet adoption platform connecting shelters, adopters, and veterinary clinics.
+A comprehensive pet adoption platform connecting shelters, adopters, and veterinary clinics with intelligent chatbot assistants.
 
 ## 🏗️ System Architecture
 
-This project consists of three integrated systems:
+This project consists of three integrated microservices:
 
-1. **Adoption System (Main System)** - Port 5000
+1. **Adoption System** - Port 5000
    - User management and authentication
    - Pet browsing and adoption requests
    - Email notifications
-   - Integration hub
+   - Integration hub for Shelter and Veterinary APIs
+   - 🤖 AI Chatbot with cross-system integration
 
 2. **Shelter Inventory System** - Port 5001
-   - Pet management
-   - Availability tracking
+   - Pet management and availability tracking
    - Image uploads
-   - API provider for pet data
+   - REST API provider for pet data
+   - 🤖 Shelter Assistant Chatbot
 
 3. **Veterinary Management System** - Port 5002
-   - Health records management
-   - Appointment scheduling
-   - Vaccination tracking
-   - Medical history
+   - Health records and vaccination tracking
+   - Appointment scheduling (Google Calendar integration)
+   - Medical history management
+   - 🤖 Veterinary Assistant Chatbot
 
 ## 🚀 Features
 
@@ -51,73 +52,52 @@ This project consists of three integrated systems:
 
 ## 🛠️ Technology Stack
 
-- **Backend**: Python Flask
-- **Database**: SQLite (development) / PostgreSQL (production)
-- **Frontend**: HTML, CSS, JavaScript (Bootstrap)
-- **APIs**: 
+- **Backend**: Python Flask 3.0.0
+- **Database**: SQLite
+- **Frontend**: HTML, CSS, JavaScript (Bootstrap 5)
+- **APIs**: Google Calendar API, Email (SMTP)
+- **AI**: Natural Language Processing for chatbot assistants
 
-  - Google Calendar API
-  - Email (SMTP)
+## 📦 Installation & Setup
 
-## 📦 Installation & Deployment
-
-### 🐳 Quick Docker Deploy (Recommended)
-
-**Prerequisites:** Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
-
-```powershell
-# One command to deploy everything:
-.\deploy_docker.ps1
+### 1. Clone Repository
+```bash
+git clone https://github.com/whiteheadbella/vet-management.git
+cd Vet-Management
 ```
 
-**That's it!** In 5 minutes you'll have:
-- ✅ All 3 systems running
-- ✅ 20 pets populated
-- ✅ 20 health records
-- ✅ 3 veterinarians
-- ✅ 5 appointments
-
-**Access at:**
-- http://localhost:5000 (Adoption System)
-- http://localhost:5001 (Shelter System)
-- http://localhost:5002 (Veterinary System)
-
-**Full Docker Guide:** [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)
-
----
-
-### 📝 Manual Setup (Development)
-
-1. **Clone & Setup**
+### 2. Setup Virtual Environment
 ```bash
-cd Vet-Management
 python -m venv venv
 venv\Scripts\activate  # Windows
+# source venv/bin/activate  # Mac/Linux
 pip install -r requirements.txt
 ```
 
-2. **Configure Environment**
-```bash
-copy .env.example .env
-# Edit .env with your settings
-```
-
-3. **Initialize & Populate**
+### 3. Initialize Databases & Populate Data
 ```bash
 python init_databases.py
 python populate_pets.py
 python populate_vet_records.py
 ```
 
-4. **Run All Systems**
+This will create:
+- ✅ 20 pets (10 dogs, 10 cats) with images
+- ✅ 20 health records with vaccinations
+- ✅ 3 veterinarians
+- ✅ 5 scheduled appointments
+
+### 4. Run All Three Systems
+Open **3 separate terminal windows**:
+
 ```bash
-# Terminal 1 - Adoption System
+# Terminal 1 - Adoption System (Port 5000)
 python adoption_system/app.py
 
-# Terminal 2 - Shelter System
+# Terminal 2 - Shelter System (Port 5001)
 python shelter_system/app.py
 
-# Terminal 3 - Veterinary System
+# Terminal 3 - Veterinary System (Port 5002)
 python veterinary_system/app.py
 ```
 
@@ -182,38 +162,7 @@ python veterinary_system/app.py
 - Appointment reminders
 - Health record updates
 
-## 🐳 Docker Deployment (Recommended)
 
-### Simple 3-Step Process:
-
-**1. Install Docker Desktop** (one-time)
-   - Download: https://www.docker.com/products/docker-desktop
-   - Install and restart computer
-
-**2. Deploy** (5 minutes)
-   ```powershell
-   .\deploy_docker.ps1
-   ```
-
-**3. Access** - Open in browser:
-   - http://localhost:5000 (Adoption System)
-   - http://localhost:5001 (Shelter System)
-   - http://localhost:5002 (Veterinary System)
-
-### Documentation:
-- 📖 [Docker Quick Start](DOCKER_QUICK_START.md) - Simple step-by-step
-- 📖 [Docker Deployment Guide](DOCKER_DEPLOYMENT.md) - Complete reference
-- 🔌 [API Testing Guide](POSTMAN_API_GUIDE.md) - Test integration
-
-### Deployed System Includes
-- ✅ 20 pets (10 dogs, 10 cats) with images
-- ✅ 20 complete health records with vaccinations
-- ✅ 3 veterinarians with profiles
-- ✅ 5 scheduled appointments
-- ✅ Full cross-system integration
-- ✅ **3 AI Chatbot Assistants** with natural language processing
-
----
 
 ## 🤖 Chatbot Integration
 
@@ -312,27 +261,25 @@ Educational Project - 2025
 
 ---
 
-## 🎓  Presenters
+## 🎓 Demo Guide
 
-**Pre-Presentation Checklist:**
-- [ ] Choose deployment method (Docker/Render/Local)
-- [ ] Run deployment script
-- [ ] Test all 3 systems
-- [ ] Generate QR codes for mobile access
-- [ ] Test API endpoints in Postman
-- [ ] Prepare backup deployment
-- [ ] Test on multiple devices
+**Pre-Demo Checklist:**
+- [ ] Run all 3 systems (ports 5000, 5001, 5002)
+- [ ] Verify databases are populated
+- [ ] Test chatbot integration
+- [ ] Check API endpoints
+- [ ] Prepare backup if needed
 
-**Demo Flow (7 minutes):**
-1. Browse pets with filters → Show integration
-2. View health records → Show vaccination tracking
-3. Schedule appointment → Show cross-system communication
-4. **🤖 Chatbot Integration Demo** → Ask "Check health status for pet 1" in Adoption chatbot
-5. View veterinarian profiles → Show complete system
-6. Test APIs in Postman → Show technical architecture
+**Demo Flow (Recommended):**
+1. **Browse Pets** → Show available pets and filtering
+2. **View Health Records** → Demonstrate vaccination tracking
+3. **Schedule Appointment** → Show Google Calendar integration
+4. **Chatbot Demo** → Ask "Check health status for pet 1" in Adoption chatbot
+5. **API Integration** → Show cross-system communication
+6. **User Management** → Demonstrate role-based access
 
-**Chatbot Demo (Recommended):**
+**Chatbot Demo (Key Feature):**
 1. Open Adoption chatbot: http://localhost:5000/chatbot
 2. Query: "Show me available pets" (calls Shelter API)
 3. Query: "Check health status for pet 1" (calls BOTH Shelter + Vet APIs)
-4. Explain: Real-time microservices integration via REST APIs
+4. Explain: **Real-time microservices integration via REST APIs**
