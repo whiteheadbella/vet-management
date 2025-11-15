@@ -210,11 +210,22 @@ def delete_pet(pet_id):
     return jsonify({'success': True, 'message': 'Pet deleted'})
 
 
-@bp.route('/pets/<int:pet_id>/images', methods=['POST'])
-def add_pet_image(pet_id):
-    """Add image to pet"""
+@bp.route('/pets/<int:pet_id>/images', methods=['GET', 'POST'])
+def pet_images(pet_id):
+    """Get or add images for a pet"""
     pet = Pet.query.get_or_404(pet_id)
     
+    if request.method == 'GET':
+        # Return all images for this pet
+        images = PetImage.query.filter_by(pet_id=pet_id).all()
+        return jsonify({
+            'pet_id': pet_id,
+            'pet_name': pet.name,
+            'images': [img.to_dict() for img in images],
+            'total': len(images)
+        })
+    
+    # POST - Add image to pet
     if 'image' not in request.files:
         return jsonify({'error': 'No image file'}), 400
     
