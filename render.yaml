@@ -5,8 +5,8 @@ services:
     env: python
     region: oregon
     plan: free
-    buildCommand: pip install -r requirements.txt && python init_databases.py && python populate_pets.py && python populate_vet_records.py
-    startCommand: gunicorn adoption_system.app:app --bind 0.0.0.0:$PORT
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT adoption_system.app:app
     envVars:
       - key: FLASK_ENV
         value: production
@@ -36,7 +36,7 @@ services:
     region: oregon
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn shelter_system.app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn --bind 0.0.0.0:$PORT shelter_system.app:app
     envVars:
       - key: FLASK_ENV
         value: production
@@ -51,7 +51,7 @@ services:
     region: oregon
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn veterinary_system.app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn --bind 0.0.0.0:$PORT veterinary_system.app:app
     envVars:
       - key: FLASK_ENV
         value: production
