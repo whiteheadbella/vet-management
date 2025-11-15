@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Veterinarian{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/vets/" class="btn btn-secondary mb-3">
+            <i class="bi bi-arrow-left"></i> Back to Veterinarians
+        </a>
+        <h2><i class="bi bi-person-plus-fill text-success"></i> Add New Veterinarian</h2>
+        <p class="text-muted">Register a new veterinarian to the system</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-person-badge"></i> Veterinarian Information</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <!-- Basic Information -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-person"></i> Basic Information</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" required
+                                   placeholder="Dr. John Smith">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Specialization <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="specialization" required
+                                   placeholder="e.g., General Practice, Surgery, Internal Medicine">
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-telephone"></i> Contact Information</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" name="email" required
+                                   placeholder="dr.smith@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" name="phone"
+                                   placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+
+                    <!-- Professional Details -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-award"></i> Professional Details</h6>
+                        <div class="mb-3">
+                            <label class="form-label">License Number <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="license_number" required
+                                   placeholder="VET-12345">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Years of Experience</label>
+                            <input type="number" class="form-control" name="experience_years" min="0"
+                                   placeholder="5">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Education</label>
+                            <textarea class="form-control" name="education" rows="2"
+                                      placeholder="DVM from University of XYZ"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Bio / About</label>
+                            <textarea class="form-control" name="bio" rows="3"
+                                      placeholder="Brief professional background and expertise..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Availability -->
+                    <div class="mb-4">
+                        <h6 class="border-bottom pb-2"><i class="bi bi-calendar-check"></i> Availability</h6>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="available" id="available" checked>
+                            <label class="form-check-label" for="available">
+                                Currently Available for Appointments
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/vets/" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Add Veterinarian
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-3">
+            <i class="bi bi-info-circle"></i> 
+            <strong>Note:</strong> All fields marked with <span class="text-danger">*</span> are required.
+        </div>
+    </div>
+</div>
+{% endblock %}
