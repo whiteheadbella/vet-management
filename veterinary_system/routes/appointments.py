@@ -187,3 +187,18 @@ def api_get_pet_appointments(pet_id):
         'appointments': [apt.to_dict() for apt in appointments],
         'total': len(appointments)
     })
+
+@bp.route('/<int:id>/delete', methods=['POST'])
+def delete_appointment(id):
+    """Delete appointment"""
+    appointment = Appointment.query.get_or_404(id)
+    
+    try:
+        db.session.delete(appointment)
+        db.session.commit()
+        flash('Appointment deleted successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting appointment: {str(e)}', 'danger')
+    
+    return redirect(url_for('appointments.list_appointments'))
