@@ -257,7 +257,7 @@
 
 <script>
 // Load health records via AJAX
-fetch(`/api/health/${{{ pet.id }}}`)
+fetch(`/api/health/{{ pet.id }}`)
     .then(response => response.json())
     .then(data => {
         const container = document.getElementById('healthRecords');
