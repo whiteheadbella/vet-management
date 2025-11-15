@@ -12,7 +12,6 @@ bp = Blueprint('appointments', __name__, url_prefix='/appointments')
 
 from veterinary_system.extensions import db
 from veterinary_system.models import Appointment, Vet
-from veterinary_system.utils.google_calendar import create_calendar_event, update_calendar_event, delete_calendar_event
 
 @bp.route('/api/schedule-appointment/', methods=['POST'])
 def api_schedule_appointment():
@@ -51,22 +50,6 @@ def api_schedule_appointment():
     
     db.session.add(appointment)
     db.session.commit()
-    
-    # Create Google Calendar event
-    try:
-        event_id = create_calendar_event(
-            title=f"Vet Appointment - {appointment.pet_name}",
-            description=f"Reason: {appointment.reason}\nOwner: {appointment.owner_name}",
-            start_time=appointment.date,
-            duration=appointment.duration,
-            attendees=[appointment.owner_email, vet.email] if appointment.owner_email else [vet.email]
-        )
-        
-        if event_id:
-            appointment.google_calendar_event_id = event_id
-            db.session.commit()
-    except Exception as e:
-        print(f"Failed to create calendar event: {e}")
     
     return jsonify(appointment.to_dict()), 201
 
@@ -116,26 +99,6 @@ def schedule_appointment():
         
         db.session.add(appointment)
         db.session.commit()
-        
-        # Create Google Calendar event (optional - skip if not configured)
-        try:
-            vet = Vet.query.get(vet_id)
-            # Only attempt calendar integration if credentials exist
-            if os.path.exists('credentials.json'):
-                event_id = create_calendar_event(
-                    title=f"Vet Appointment - {pet_name}",
-                    description=f"Reason: {reason}\nOwner: {owner_name}\nPhone: {owner_phone}",
-                    start_time=appointment_date,
-                    duration=int(duration),
-                    attendees=[owner_email, vet.email] if owner_email and vet else []
-                )
-                
-                if event_id:
-                    appointment.google_calendar_event_id = event_id
-                    db.session.commit()
-        except Exception as e:
-            print(f"Google Calendar integration skipped or failed: {e}")
-            # Continue without calendar integration
         
         flash(f'Appointment scheduled successfully for {pet_name}!', 'success')
         return redirect(url_for('appointments.view_appointment', appointment_id=appointment.id))
@@ -195,17 +158,6 @@ def update_appointment(appointment_id):
     
     db.session.commit()
     
-    # Update Google Calendar event
-    if appointment.google_calendar_event_id:
-        try:
-            update_calendar_event(
-                event_id=appointment.google_calendar_event_id,
-                title=f"Vet Appointment - {appointment.pet_name} [{status}]",
-                description=f"Reason: {appointment.reason}\nStatus: {status}\nNotes: {notes}"
-            )
-        except Exception as e:
-            print(f"Failed to update calendar event: {e}")
-    
     flash('Appointment updated successfully!', 'success')
     return redirect(url_for('appointments.view_appointment', appointment_id=appointment_id))
 
@@ -218,13 +170,6 @@ def cancel_appointment(appointment_id):
     appointment.updated_at = datetime.utcnow()
     
     db.session.commit()
-    
-    # Delete from Google Calendar
-    if appointment.google_calendar_event_id:
-        try:
-            delete_calendar_event(appointment.google_calendar_event_id)
-        except Exception as e:
-            print(f"Failed to delete calendar event: {e}")
     
     flash('Appointment cancelled.', 'info')
     return redirect(url_for('appointments.list_appointments'))
