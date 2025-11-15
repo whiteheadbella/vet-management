@@ -117,22 +117,25 @@ def schedule_appointment():
         db.session.add(appointment)
         db.session.commit()
         
-        # Create Google Calendar event
+        # Create Google Calendar event (optional - skip if not configured)
         try:
             vet = Vet.query.get(vet_id)
-            event_id = create_calendar_event(
-                title=f"Vet Appointment - {pet_name}",
-                description=f"Reason: {reason}\nOwner: {owner_name}\nPhone: {owner_phone}",
-                start_time=appointment_date,
-                duration=int(duration),
-                attendees=[owner_email, vet.email] if owner_email and vet else []
-            )
-            
-            if event_id:
-                appointment.google_calendar_event_id = event_id
-                db.session.commit()
+            # Only attempt calendar integration if credentials exist
+            if os.path.exists('credentials.json'):
+                event_id = create_calendar_event(
+                    title=f"Vet Appointment - {pet_name}",
+                    description=f"Reason: {reason}\nOwner: {owner_name}\nPhone: {owner_phone}",
+                    start_time=appointment_date,
+                    duration=int(duration),
+                    attendees=[owner_email, vet.email] if owner_email and vet else []
+                )
+                
+                if event_id:
+                    appointment.google_calendar_event_id = event_id
+                    db.session.commit()
         except Exception as e:
-            print(f"Failed to create calendar event: {e}")
+            print(f"Google Calendar integration skipped or failed: {e}")
+            # Continue without calendar integration
         
         flash(f'Appointment scheduled successfully for {pet_name}!', 'success')
         return redirect(url_for('appointments.view_appointment', appointment_id=appointment.id))
